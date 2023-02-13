@@ -23,7 +23,9 @@ using (connection)
 
     // ExecuteProcedureSelect(connection);
 
-    ExecuteScalar(connection);
+    // ExecuteScalar(connection);
+
+    VwListCourses(connection);
 
 
 }
@@ -163,5 +165,16 @@ static void ExecuteScalar(SqlConnection connection)
     });
 
     Console.WriteLine(idExecuteScalar);
-
 };
+
+static void VwListCourses(SqlConnection connection)
+{
+    var vwListCourses = "SELECT * FROM vwCourses";
+
+    var courses = connection.Query<Course>(vwListCourses);
+
+    foreach(var course in courses)
+    {
+        Console.WriteLine($"{course.Title} - {course.Summary}");
+    }
+}
