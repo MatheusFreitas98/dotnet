@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "uE7Y5U9ciDZbdWfVQ/ywRsZ17l0/OHyp5JKBK0Pj8GP7YScb0jXRPQhbQnf9ZH1eMzkbzd9iO2iN75dBWwTV8A==",
+  "dgSpecHash": "cNHCkzegGy70ymTh6qcG1jwm565pBIAFm92OypTzE44m6uU581yOvOfc/Id1p1jgKAzo5cfvKpeXCnU564zgEA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\mathe\\OneDrive - Grupo Marista\\Matheus\\Estudos\\Programação\\.NET\\Curso Balta\\Git\\Dapper\\DataAccess.csproj",
+  "projectFilePath": "C:\\Users\\mathe\\OneDrive - Grupo Marista\\Matheus\\Estudos\\Programação\\.NET\\Curso Balta\\dotnet\\Dapper\\DataAccess.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mathe\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\mathe\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

@@ -1320,11 +1320,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mathe\\OneDrive - Grupo Marista\\Matheus\\Estudos\\Programação\\.NET\\Curso Balta\\Git\\Dapper\\DataAccess.csproj",
+      "projectUniqueName": "C:\\Users\\mathe\\OneDrive - Grupo Marista\\Matheus\\Estudos\\Programação\\.NET\\Curso Balta\\dotnet\\Dapper\\DataAccess.csproj",
       "projectName": "DataAccess",
-      "projectPath": "C:\\Users\\mathe\\OneDrive - Grupo Marista\\Matheus\\Estudos\\Programação\\.NET\\Curso Balta\\Git\\Dapper\\DataAccess.csproj",
+      "projectPath": "C:\\Users\\mathe\\OneDrive - Grupo Marista\\Matheus\\Estudos\\Programação\\.NET\\Curso Balta\\dotnet\\Dapper\\DataAccess.csproj",
       "packagesPath": "C:\\Users\\mathe\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mathe\\OneDrive - Grupo Marista\\Matheus\\Estudos\\Programação\\.NET\\Curso Balta\\Git\\Dapper\\obj\\",
+      "outputPath": "C:\\Users\\mathe\\OneDrive - Grupo Marista\\Matheus\\Estudos\\Programação\\.NET\\Curso Balta\\dotnet\\Dapper\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mathe\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -21,13 +21,12 @@ using (connection)
 
     // ListCategories(connection);
 
-    ExecuteProcedureSelect(connection);
+    // ExecuteProcedureSelect(connection);
+
+    ExecuteScalar(connection);
 
 
 }
-
-
-
 
 static void ListCategories(SqlConnection connection)
 {
@@ -87,30 +86,33 @@ static void UpdateCategory(SqlConnection connection)
                             SET Title = @Title
                             WHERE Id = @Id";
 
-    var rows = connection.Execute(updateQuery, new 
+    var rows = connection.Execute(updateQuery, new
     {
         category.Id,
         category.Title
     });
 
-    Console.WriteLine($"{rows} registros atualizados.");    
+    Console.WriteLine($"{rows} registros atualizados.");
 }
 
 static void DeleteCategory(SqlConnection connection)
 {
     var deleteQuery = @"DELETE FROM Category WHERE Id = @Id";
 
-    var rows = connection.Execute(deleteQuery, new {
+    var rows = connection.Execute(deleteQuery, new
+    {
         Id = "e2b54a13-c900-4218-bc70-e4e053c04c23"
     });
 
     Console.WriteLine($"{rows} registros deletados.");
 }
 
-static void ExecuteProcedureSelect(SqlConnection connection) {
+static void ExecuteProcedureSelect(SqlConnection connection)
+{ // Read e Execute
     var executeProcSelect = "spSelectStudent";
 
-    var StudentIdzera = new {
+    var StudentIdzera = new
+    {
         StudentId = "ecdf9746-dcac-470c-ad2f-6bc4a57edc50",
     };
 
@@ -118,7 +120,48 @@ static void ExecuteProcedureSelect(SqlConnection connection) {
 
     var rows = connection.Query(executeProcSelect, StudentIdzera, commandType: CommandType.StoredProcedure);
 
-    foreach (var item in rows) {
+    foreach (var item in rows)
+    {
         Console.WriteLine(item);
     }
 }
+
+static void ExecuteScalar(SqlConnection connection)
+{
+    Category categoria = new Category();
+    categoria.Title = "Amazon AWS";
+    categoria.Url = "amazon";
+    categoria.Description = "Categoria destinada a serviços do AWS";
+    categoria.Order = 8;
+    categoria.Summary = "Aws Cloud";
+    categoria.Featured = false;
+
+    var queryExecuteScalar = @"
+                                DECLARE @NewId uniqueidentifier;
+                                SET @NewId = NEWID();
+                                INSERT INTO
+                                Category
+                            VALUES (
+                                @NewId,
+                                @Title,
+                                @Url,
+                                @Description,
+                                @Order,
+                                @Summary,
+                                @Featured
+                            );
+                            SELECT @NewId;";
+
+    var idExecuteScalar = connection.ExecuteScalar<Guid>(queryExecuteScalar, new
+    {
+        categoria.Title,
+        categoria.Url,
+        categoria.Description,
+        categoria.Order,
+        categoria.Summary,
+        categoria.Featured
+    });
+
+    Console.WriteLine(idExecuteScalar);
+
+};
