@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using Dapper.Model;
 using Dapper;
-using DataAccess.Model;
 using System.Data;
 
 var connection = new SqlConnection("Server=localhost,1433;Database=balta ;Integrated Security=true");
@@ -25,7 +25,11 @@ using (connection)
 
     // ExecuteScalar(connection);
 
-    VwListCourses(connection);
+    // VwListCourses(connection);
+
+    // OneToOne(connection);
+
+    OneToMany(connection);
 
 
 }
@@ -173,8 +177,73 @@ static void VwListCourses(SqlConnection connection)
 
     var courses = connection.Query<Course>(vwListCourses);
 
-    foreach(var course in courses)
+    foreach (var course in courses)
     {
         Console.WriteLine($"{course.Title} - {course.Summary}");
+    }
+}
+
+static void OneToOne(SqlConnection connection)
+{
+    var sql = "SELECT * FROM CareerItem INNER JOIN Course ON CareerItem.CourseId = Course.Id";
+
+    var careers = connection.Query<CareerItem, Course, CareerItem>(sql,
+            (careerItem, course) =>
+            {
+                careerItem.Course = course;
+                return careerItem;
+            },
+            splitOn: "Id");
+
+    foreach (var item in careers)
+    {
+        Console.WriteLine($"{item.Course.Title} - {item.Description}");
+    }
+}
+
+static void OneToMany(SqlConnection connection)
+{
+    var sql = @"SELECT
+                    Career.Id,
+                    Career.Title,
+                    CareerItem.CareerId,
+                    CareerItem.Title
+                FROM
+                    Career
+                INNER JOIN
+                    CareerItem
+                ON
+                    CareerItem.CareerId = Career.Id
+                ORDER BY
+                    Career.Title";
+
+    var careers = new List<Career>();
+
+    var items = connection.Query<Career, CareerItem, Career>(sql,
+            (career, item) =>
+            {
+                var car = careers.Where(x => x.Id == career.Id).FirstOrDefault();
+
+                if (car == null) {
+                    car = career;
+                    car.CareerItems = car.CareerItems ?? new List<CareerItem>();
+                    car.CareerItems.Add(item);
+                    careers.Add(car);
+                }
+                else {
+                    car.CareerItems = car.CareerItems ?? new List<CareerItem>();
+                    car.CareerItems.Add(item);
+                }
+                return career;
+            },
+            splitOn: "CareerId");
+
+    foreach (var career in items)
+    {
+        Console.WriteLine($"{career.Title}");
+        foreach (var item in career.CareerItems)
+        {
+            Console.WriteLine($" - {item.Title}");
+        }
     }
 }
