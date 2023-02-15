@@ -1,9 +1,10 @@
 using Dapper.Contrib.Extensions;
 
-namespace Projeto.Model {
-
+namespace Projeto.Model
+{
     [Table("[User]")]
-    public class User {
+    public class User
+    {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
