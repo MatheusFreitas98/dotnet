@@ -14,32 +14,33 @@ namespace Projeto.Repositories
             _connection = connection;
         }
 
-        public IEnumerable<User> GetWithRoles()
+        public IEnumerable<User> GetAllWithRoles()
         {
             const string sql = @"SELECT 
-                            u.[Name], r.[Name]
-                        FROM 
-                            [User] u
-                        RIGHT JOIN
-                            [UserRole] ur
-                        ON 
-                            ur.UserId = u.Id
-                        LEFT JOIN
-                            [Role] r
-                        ON
-                            ur.UserId = r.Id;
+                                    [User].*,
+                                    [Role].Id as [RoleId], [Role].Name, [Role].Slug
+                                FROM 
+                                    [User] [user]
+                                LEFT JOIN 
+                                    [UserRole] [userRole]
+                                ON 
+                                    [user].[Id] = [userRole].[UserId]
+                                LEFT JOIN
+                                    [Role] [role]
+                                ON
+                                    [userRole].[RoleId] = [Role].Id
             ";
 
             var users = new List<User>(); // Essa lista será retornada no final da função
 
             var items = _connection.Query<User, Role, User>(sql, (user, role) =>
             {
-                var usr = users.Where(users => users.Id == role.Id).FirstOrDefault(); // Objeto auxiliar
+                var usr = users.Where(users => users.Id == user.Id).FirstOrDefault(); // Objeto auxiliar
 
                 if (usr == null) // -> Só vai executar na primeira vez, após isso a lista 'users' (fora do escopo) já vai ter um objeto
                 {
                     usr = user;
-                    usr.Roles = usr.Roles ?? new List<Role>(); // -> Se roles for null, ela vai receber uma lista de Role vazia, senão, recebe ela mesma
+                    if (role != null) usr.Roles.Add(role);                    
                     users.Add(usr); // -> Adiciona o usuário na lista 'users'
                 }
                 else
@@ -47,7 +48,7 @@ namespace Projeto.Repositories
                     usr.Roles.Add(role);
                 }
                 return user;
-            }, splitOn: "Id");
+            }, splitOn: "RoleId");
             return users;
         }
 
