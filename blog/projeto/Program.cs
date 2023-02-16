@@ -17,11 +17,21 @@ user.Slug = "joao-silva";
 
 var connection = new SqlConnection("Server=localhost,1433;Database=Blog;Integrated Security=true");
 
-GetAllUser();
+// GetAllUser();
+
+GetWithRoles();
 
 void GetAllUser()
 {
     var items = new Repository<User>(connection).GetAll();
+
+    foreach (var user in items)
+        Console.WriteLine(user.Name);
+};
+
+void GetWithRoles()
+{
+    var items = new UserRepository(connection).GetWithRoles();
 
     foreach (var user in items)
         Console.WriteLine(user.Name);
